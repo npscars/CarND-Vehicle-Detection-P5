@@ -15,9 +15,9 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 [image1]: ./output_images/HOG_feature_car_and_not_car_RGB_2.png
-[image2]: ./examples/HOG_feature_car_and_not_car_YUV_2.png
-[image3]: ./examples/BoundingBox_test_images.png
-[image4]: ./examples/Heatmap_test_images.png
+[image2]: ./output_images/HOG_feature_car_and_not_car_YUV_2.png
+[image3]: ./output_images/BoundingBox_test_images.png
+[image4]: ./output_images/Heatmap_test_images.png
 [video1]: ./ptest_filtered.mp4
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
@@ -38,8 +38,8 @@ I started by reading in all the `vehicle` and `non-vehicle` images.
 I then explored different color spaces and different `skimage.hog()` parameters (`orientations`, `pixels_per_cell`, and `cells_per_block`).  I grabbed random images from each of the two classes and displayed them to get a feel for what the `skimage.hog()` output looks like. Also shown in IPython notebook 4th code cell.
 
 Here is an example using the `RGB` and `YUV` color space and HOG parameters of `orientations=9`, `pixels_per_cell=(8, 8)` and `cells_per_block=(2, 2)`:
-![alt text][image1]
-![alt text][image2]
+![RGB][image1]
+![YUV][image2]
 
 ####2. Explain how you settled on your final choice of HOG parameters.
 Please see answer to Q2 in Q3 as i decided on final choice considering the SVM test accuracy.
@@ -62,7 +62,7 @@ I trained a linear SVM using sklearn package's 'svm' module. First I combined al
 Sliding window functions defines the windows of default (64,64) pixels in the image's region of interest with 50% overlap so that we don't miss too many features. The overlap can be increased to say 75% to cover potentially more features like car, but that would increase the computation time too. Also for pipeline later on you will see that 96,96 pixel windows were selected to get faster computation time.
 Then Search window function looks out for features in those windows and if found using the previously fitted SVC model then it returns only those '_on_windows_' as the windows of interest.
 One of the sample output of combination of both sliding window and search window output can be found in following image:
-![alt text][image3]
+![Windows][image3]
 
 ####2. Show some examples of test images to demonstrate how your pipeline is working.  What did you do to optimize the performance of your classifier?
 
@@ -70,7 +70,7 @@ For final pipeline though I implemented '_find_cars()' function as discussed in 
 So instead of extracting hog features for each 96x96 window, this function calculates hog features of whole image (i.e. region of interest) and then sub-samples (@64x64 pixels) the array to extract hog/spatial and color space features of each block as shown in code cell 8. These blocks are then iteratively predicted to contain a car or not for whole region of interest.
 A heatmap is created which gives more points for area where there are more than one hits per block.
 An example is shown in the image below.
-![alt text][image4]
+![Heatmap][image4]
 ---
 
 ### Video Implementation
